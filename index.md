@@ -3,22 +3,6 @@ layout: default
 title: Home Page
 ---
 
-#
-
-#
-
-#
-
-#
-
-#
-
-#
-
-#
-
-#
-
 # Bem-vindo ao Meu Mundo Digital
 
 Olá, eu sou Vitor Henrique, um apaixonado por computação gráfica e arquitetura de sistemas. Atualmente, estou cursando Ciência da Computação no Instituto Federal Goiano. Sou entusiasta do desenvolvimento de aplicações robustas e acredito na beleza e elegância na arquitetura de sistemas.
