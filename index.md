@@ -3,77 +3,16 @@ layout: default
 title: Home Page
 ---
 
-# Game Manager
+# Bem-vindo ao Meu Mundo Digital
 
-> Um gerenciador de um jogo deve ser o núcleo do jogo, funcionando como uma cola que une tudo o que é primordial no sistema de forma elegante, performática e legível. Aqui listo meu ponto de vista sobre como criar um Game Manager da forma que considero a melhor até o momento.
+Olá, eu sou Vitor Henrique, um apaixonado por computação gráfica e arquitetura de sistemas. Atualmente, estou cursando Ciência da Computação no Instituto Federal Goiano. Sou entusiasta do desenvolvimento de aplicações robustas e acredito na beleza e elegância na arquitetura de sistemas.
 
-Todo jogo deve ter uma classe base de onde sairão heranças que formarão as entidades contidas na cena. Uma entidade é qualquer coisa colocada no jogo com um propósito de se comportar de forma distinta dos demais tipos de entidades. Como princípios básicos da Programação Orientada a Objetos, devemos ter uma classe base Entity, mais do que isso, toda entidade deve guardar dados comuns a todos os objetos, como a posição, rotação e escala do objeto, ou até mesmo os componentes (comportamentos) que serão adicionados nele em tempo de código (dev time) ou tempo de execução (run time).
+## Sobre Mim
 
-As características relacionadas a posição, rotação e escala, tem em comum entre si a propriedade de ter 3 valores, um para o eixo X, um para o eixo Y e um para o eixo Z.
+Meu interesse em computação gráfica me levou a explorar o mundo fascinante da visualização digital. Adoro transformar conceitos abstratos em experiências visuais cativantes.
 
-```java
-public class Vector3 {
+## Contato
 
-	public float x;
-	public float y;
-	public float z;
+Sinta-se à vontade para entrar em contato e compartilhar suas ideias ou discutir colaborações.
 
-	public Vector3(float x, float y, float z){
-		this.x = x;
-		this.y = y;
-		this.z = z;
-	}
-
-	public Vector3() {
-		Vector3 vec = Vector3.zero();
-		this.x = vec.x;
-		this.y = vec.y;
-		this.z = vec.z;
-	}
-
-	private static Vector3 zero(){
-		return new Vector3(0f, 0f, 0f);
-	}
-}
-```
-
-A classe Transform deve guardar esses vetores.
-
-```java
-public class Transform {
-
-	public Vector3 position;
-	public Vector3 rotation;
-	public Vector3 scale;
-
-	public Transform(Vector3 position, Vector3 rotation, Vector3 scale){
-		this.position = position;
-		this.rotation = rotation;
-		this.scale = scale;
-	}
-
-	public Transform(){
-		this.position = Vector3.zero();
-		this.rotation = Vector3.zero();
-		this.scale = Vector3.zero();
-	}
-}
-```
-
-Agora que temos nossas classes que guardam as informações básicas de toda entidade, vamos definir a classe mãe de todos os comportamentos que poderemos adicionar às entidades.
-
-```java
-public abstract class Component {
-
-    protected Entity entity;
-    protected boolean isEnabled;
-
-    public Component(Entity entity){
-        this.entity = entity;
-    }
-
-    public abstract void update();
-}
-```
-
-A classe Component deve ter conhecimento da entidade a qual ela irá alterar o comportamento, mas a entidade não deve conhecer a implementação de nenhum de seus comportamentos, isso se deve ao princípio da inversão de dependência, que
+- **E-mail:** vitorhenriquesilvadesa@gmail.com
