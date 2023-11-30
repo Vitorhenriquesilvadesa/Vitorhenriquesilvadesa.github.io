@@ -31,7 +31,7 @@ public class Vector3 {
 		this.z = vec.z;
 	}
 
-	private static Vector3 zero(){
+	public static Vector3 zero(){
 		return new Vector3(0f, 0f, 0f);
 	}
 }
