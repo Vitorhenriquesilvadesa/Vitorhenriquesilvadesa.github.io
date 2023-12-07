@@ -104,7 +104,7 @@ public interface Table<K, V> {
 
 A seguir, entramos nas entranhas da implementação das estruturas essenciais: a TableLine e a TableCell. A TableLine representa uma linha na tabela hash, contendo uma lista de células (TableCell) associadas a uma determinada posição.
 
-```Java
+```java
 import java.util.LinkedList;
 
 /**
@@ -245,7 +245,7 @@ public class TableCell<K, V> {
 
 Com as estruturas fundamentais estabelecidas, surge a classe HashTable, que representa a tabela hash com encadeamento. Destacamos a implementação dos métodos de inserção, busca, remoção e redimensionamento, sendo crucial para manter o desempenho à medida que a tabela cresce.
 
-```Java
+```java
 import java.util.List;
 import java.util.LinkedList;
 
@@ -407,7 +407,7 @@ public class HashTable<K, V> implements Table<K, V> {
 
 A busca pela eficiência não para na implementação básica. Introduzimos otimizações utilizando ArrayList em vez de LinkedList para as linhas da tabela, buscando um acesso mais rápido aos elementos. Além disso, limitamos o tamanho máximo de uma linha, evitando colisões excessivas e garantindo a consistência da tabela.
 
-```Java
+```java
 private final int MAX_LINE_SIZE_FACTOR = 16;
 
 //...
