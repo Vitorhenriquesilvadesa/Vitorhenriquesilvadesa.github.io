@@ -356,7 +356,7 @@ public class HashTable<K, V> implements Table<K, V> {
     @Override
     public void remove(K key) {
         int hash = key.hashCode();
-        TableLine<K, V> line = this.lines.get((hash % size));
+        TableLine<K, V> line = this.lines.get((Math.abs(hash) % size));
         line.remove(key, this.size);
     }
 
@@ -431,6 +431,50 @@ public void insert(K key, V value) {
             resize();
         }
     }
+```
+
+Exemplo de uso da tabela implementada
+
+```java
+public class Main {
+
+    public static void main(String[] args) {
+
+        // Exemplo de uso da HashTable
+        HashTable<String, Integer> hashTable = new HashTable<>(10);
+
+        // Inserindo elementos
+        hashTable.insert("Alice", 25);
+        hashTable.insert("Bob", 30);
+        hashTable.insert("Charlie", 22);
+
+        // Buscando elementos
+        System.out.println("Idade de Bob: " + hashTable.get("Bob")); // Saída esperada: 30
+
+        // Removendo elementos
+        hashTable.remove("Alice");
+
+        // Tentando obter o valor removido
+        System.out.println("Idade de Alice após remoção: " + hashTable.get("Alice")); // Saída esperada: null
+
+        // Redimensionando a tabela (para fins de exemplo, ajustando o fator de carga)
+        hashTable.insert("David", 35);
+        hashTable.insert("Eva", 28);
+        hashTable.insert("Frank", 40);
+        hashTable.insert("Grace", 33);
+        hashTable.insert("Hank", 45);
+        hashTable.insert("Ivy", 27);
+
+        // Convertendo a tabela para uma lista de células
+        List<TableCell<String, Integer>> cellList = hashTable.toList();
+
+        // Exibindo a lista de células
+        System.out.println("Lista de células da tabela:");
+        for (TableCell<String, Integer> cell : cellList) {
+            System.out.println("Chave: " + cell.getKey() + ", Valor: " + cell.getValue());
+        }
+    }
+}
 ```
 
 <br>
