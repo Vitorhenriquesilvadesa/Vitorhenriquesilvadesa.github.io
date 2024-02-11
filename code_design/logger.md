@@ -12,7 +12,7 @@ Então, prepare-se para uma jornada cheia de diversão e aprendizado, enquanto d
 
 Antes de mergulharmos no núcleo desse microsistema que injetaremos em nossa aplicação, criaremos as classes de configuração, bem... não exatamente classes. Como nosso módulo de Log será feito em Java, tiraremos proveito disso e utilizaremos **annotations**. Começaremos então com a seguinte annotation:
 
-```Java
+```java
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -33,7 +33,7 @@ Não se assuste com isso, é um trecho normal de Java, caso você já esteja hab
 
 As annotations em Java são uma forma de especificar metadados de qualquer coisa "palpável" da linguagem, como classes, records, métodos, até mesmo atributos. Por exemplo, quando você anota uma classe com **@Override** você especificando que um método deverá ser sobreposto por uma classe filha. Outro exemplo é por exemplo quando você faz uso potencialmente inseguro de tipos parametrizados (generics) e precisa anotar um método ou classe com **@SupressWarnings("unchecked")**. Seguem exemplos abaixo:
 
-```Java
+```java
 import com.vgames.survivalreckoning.service.audio.Sound;
 
 // Interface que objetos audiveis devem implementar.
@@ -42,14 +42,14 @@ public interface Audible {
 }
 ```
 
-```Java
+```java
 public abstract class Animal implements Audible {
 
     public abstract void emitSound();
 }
 ```
 
-```Java
+```java
 public class Dog extends Animal {
 
     // Observe a presença da annotation @Override no metodo.
@@ -71,7 +71,7 @@ public class Dog extends Animal {
 
 Agora voltando no contexto da nossa annotation, observe novamente o código com comentários.
 
-```Java
+```java
 // Imports necessarios para implementar uma annotation.
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -121,7 +121,7 @@ public @interface LogAlias {
 
 Agora, criaremos as outras annotations que utilizaremos para configurar nosso sistema.
 
-```Java
+```java
 import com.vgames.survivalreckoning.log.LogLevel;
 
 import java.lang.annotation.ElementType;
@@ -138,14 +138,14 @@ public @interface LogInfo {
 ```
 Os atributos level e verbose definem alguns aspectos importantes, o primeiro define qual a importância daquele Logger específico, por exemplo, se nossa aplicação está em estado de erro crítico, não faz sentido emitir mensagens com informações básicas pois elas dificultariam a visualização do que realmente importa naquele momento. Então vamos em frente, para usar nosso atributo **level** precisamos do Enum **LogLevel**:
 
-```Java
+```java
 public enum LogLevel {
     CRITICAL, ERROR, WARN, TRACE, INFO, DEBUG
 }
 ```
 O segundo atributo, **verbose** indica se queremos um log completo, ou apenas uma visão resumida do mesmo, por exemplo, exceções relacionadas a emissão errada de um efeito visual do jogo, como uma partícula de folha, não deve ser detalhadamente explicada, enquanto uma exceção relacionada a falha na abertura de um arquivo de salvamento deve ter um espaço dedicado a ela. A última classe reterá a configuração de depuração, ou seja, se um Logger conter essa annotation, seus logs não serão emitidos na versão de testes da aplicação:
 
-```Java
+```java
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -159,7 +159,7 @@ public @interface NotDebugLog {
 
 A última configuração é relacionada a geração de arquivos em pontos criticos da aplicação:
 
-```Java
+```java
 // GenerateCriticalFile.java
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -175,7 +175,7 @@ public @interface GenerateCriticalFile {
 
 Certo, terminamos tudo relacionado a configuração, podemos partir para a classe Logger de fato, vamos em frente:
 
-```Java
+```java
 // Logger.java
 
 public abstract class Logger {
@@ -193,7 +193,7 @@ public abstract class Logger {
 
 Primeiro definimos alguns atributos que usaremos na formatação de nosso logs, juntamente com as propriedades que nossas annotations alterarão.
 
-```Java
+```java
 // Restante do codigo...
 
 private boolean isDebugging;
@@ -217,7 +217,7 @@ Nosso construtor já define algumas coisas, primeiro, verificamos se a annotatio
 
 Sem LogAlias:
 
-```Java
+```java
 public class Application extends Logger {
 
     public Application() {
@@ -231,7 +231,7 @@ public class Application extends Logger {
 
 Com LogAlias:
 
-```Java
+```java
 @LogAlias("Survival Reckoning")
 public class Application extends Logger {
 
@@ -246,7 +246,7 @@ public class Application extends Logger {
 
 Em seguida, criamos o método **defineProperties**:
 
-```Java
+```java
 // Restante do codigo...
     this.dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -278,7 +278,7 @@ Se você entendeu como as annotations funciona, terá facilidade em entender est
 
 Agora vamos criar um método para obter o tempo atual formatado:
 
-```Java
+```java
 // Restante do codigo...
 
     this.isDebugging = !klass.isAnnotationPresent(NotDebugLog.class) && globalDebugDefinition;
@@ -292,7 +292,7 @@ private String getFormattedTimestamp() {
 
 Precisamos também de algo para formatar as mensagens em um formato amigável:
 
-```Java
+```java
 // Restante do codigo
 
 private String getFormattedTimestamp() {
@@ -313,7 +313,7 @@ private String formatLogMessage(String level, String message, String color) {
 
 Este método necessita de algumas constantes definidas em outra classe, nada de especial além de literalmente formatar as mensagens de log, vamos criar a classe com as constantes agora:
 
-```Java
+```java
 // LogColor.java
 class LogColor {
     static final String RESET = "\u001B[0m";           // Default properties
@@ -328,7 +328,7 @@ class LogColor {
 
 Esta classe usa os código de escape ANSI para colorir as mensagens de log. Não se esqueça de usar estes dois imports de forma estática:
 
-```Java
+```java
 import static com.vgames.survivalreckoning.log.LogColor.*;
 import static com.vgames.survivalreckoning.log.LogLevel.*;
 // Adicione no inicio de Logger.java
@@ -336,7 +336,7 @@ import static com.vgames.survivalreckoning.log.LogLevel.*;
 
 O próximo método é dedicado a formatar exceções, pois como definimos antes, exceções podem ser verbosas ou não:
 
-```Java
+```java
 // Restante do codigo
 
     return String.format("[%s] %s %s: %s", getFormattedTimestamp(), color + level + RESET, formattedName, message);
@@ -358,7 +358,7 @@ private String formatExceptionMessage(Throwable throwable) {
 ```
 A seguir, definiremos um método que usará as formatações e a classe com as sequencias de escape ANSI para _printar_ as mensagens:
 
-```Java
+```java
 // Restante do codigo
 
         return throwable.getClass().getSimpleName() + (throwable.getMessage() != null ? ": " : "") + throwable.getMessage();
@@ -375,7 +375,7 @@ private void printMessage(LogLevel level, String message, String color) {
 
 Repare que checamos o nivel do log para saber se podemos imprimir a mensagem. Os próximos métodos usarão o método **printMessage** para formatar adequadamente suas mensagens:
 
-```Java
+```java
 // Restante do codigo 
 
 private void printMessage(LogLevel level, String message, String color) {
@@ -432,7 +432,7 @@ protected void critical(String message, RuntimeException exception) {
 
 Nosso último passo é adicionar o metodo para gerar um arquivo de log nos pontos criticos, ele conterá o horário da exceção, o erro em si, a mensagem do erro, e a stack trace gerada:
 
-```Java
+```java
 // Restante do codigo...
 
     if(this.generateCriticalFile) {
@@ -473,7 +473,7 @@ private String getExceptionSource(Exception exception) {
 
 Finalmente acabamos! Podemos testar nosso sistema, o exemplo que faremos adiciona mais algumas propriedades a classe **Application** que criamos anteriormente:
 
-```Java
+```java
 @LogAlias("Survival Reckoning")
 @GenerateCriticalFile
 public class Application extends Logger {
@@ -500,7 +500,7 @@ Ao executar este codigo (tendo um método main e uma instancia de Application), 
 
 Vamos alterar o valor retornado por **init** para false:
 
-```Java
+```java
 @LogAlias("Survival Reckoning")
 @GenerateCriticalFile
 public class Application extends Logger {
@@ -532,7 +532,7 @@ Exception in thread "main" java.lang.IllegalStateException
 
 Além disso, observe o arquivo gerado no diretório raiz do seu projeto (será o mesmo diretório configurado pelo seu classpath ao executar a JVM). No meu caso, ele possui o seguinte conteudo:
 
-```Java
+```java
 Critical Error:
 Timestamp: 2024-02-10 22:31:45
 Message: Failed to initialize services:  AudioAPI
