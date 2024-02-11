@@ -173,7 +173,9 @@ public @interface GenerateCriticalFile {
 
 ```
 
-Certo, terminamos tudo relacionado a configuração, podemos partir para a classe Logger de fato, vamos em frente:
+Certo, terminamos tudo relacionado a configuração, podemos partir para a classe Logger de fato, vamos em frente.
+
+# Implementação do Logger
 
 ```java
 // Logger.java
